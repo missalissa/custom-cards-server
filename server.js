@@ -1,10 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const pg = require('pg');
 
-const PORT = 3000;
-const connString = 'postgres://postgres:1234@localhost:5432/custom_cards';
-const client = new pg.Client(connString);
+const PORT = process.env.PORT;
+const client = new pg.Client(process.env.DATABASE_URL);
 client.connect();
 
 app.get('/api/v1/cards', (req, res) => {
