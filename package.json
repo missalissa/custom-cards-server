@@ -1,0 +1,24 @@
+{
+  "name": "custom-cards-server",
+  "version": "1.0.0",
+  "description": "- create an express app\r     - that connects to a PG database\r         - create a database with a cards table\r         - seed some data\r         - design schema for cards\r     - ROUTES\r         - GET api/v1/cards\r         - GET api/v1/cards/:recipient",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/acl-custom-cards/custom-cards-server.git"
+  },
+  "author": "sajoy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/acl-custom-cards/custom-cards-server/issues"
+  },
+  "homepage": "https://github.com/acl-custom-cards/custom-cards-server#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "pg": "^7.4.0"
+  }
+}
