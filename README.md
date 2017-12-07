@@ -4,6 +4,10 @@
         - create a database with a cards table
         - seed some data
         - design schema for cards
+            - id
+            - recipient
+            - sender
+            - content
     - ROUTES
         - GET api/v1/cards
         - GET api/v1/cards/:recipient
