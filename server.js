@@ -15,11 +15,26 @@ app.get('/api/v1/cards', (req, res) => {
         .then(data => res.send(data.rows));
 });
 
+app.get('/api/v1/cards/:id', (req, res) => {
+    client.query(`SELECT * FROM cards WHERE id = $1`, [req.params.id])
+        .then(data => res.send(data.rows))
+        .catch(console.error);
+});
+
 app.get('/api/v1/cards/:recipient', (req, res) => {
-    client.query(`SELECT * FROM cards WHERE recipient = $1;`, [req.params.recipient])
+    client.query(
+        `SELECT * FROM cards WHERE recipient = $1;`,
+        [   
+            req.params.recipient,
+            req.params.recipient,
+            req.params.recipient,
+            req.params.recipient,
+            req.params.recipient, 
+            req.params.recipient,
+        ])
         .then(data => res.send(data.rows));
 });
 
-app.listen(PORT, () => { 
+app.listen(PORT, () => {
     console.log(`Listening for API requests to port ${PORT}`);
 });
