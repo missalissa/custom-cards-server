@@ -2,10 +2,13 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const pg = require('pg');
+const cors = require('cors');
 
 const PORT = process.env.PORT;
 const client = new pg.Client(process.env.DATABASE_URL);
 client.connect();
+
+app.use(cors());
 
 app.get('/api/v1/cards', (req, res) => {
     client.query(`SELECT * FROM cards;`)
