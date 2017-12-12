@@ -4,14 +4,63 @@ const app = express();
 const pg = require('pg');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const superagent = require('superagent');
 
 const PORT = process.env.PORT;
+const G_API_KEY = process.env.G_API_KEY;
+console.log(G_API_KEY);
 const client = new pg.Client(process.env.DATABASE_URL);
 client.connect();
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+
+app.use((req, res, next) => {
+    console.log('received a request!!');
+    next();
+});
+
+// /books/search?search=tree
+app.get('/search', (req, res) => {
+// https://www.googleapis.com/books/v1/volumes?q=intitle:monkeys&key=SECRETKEY
+    const googleUrl = 'https://www.googleapis.com/books/v1/volumes?q=';
+    const searchFor = req.query.search;
+
+    console.log('req.params', req.params);
+    console.log('req.query', req.query);
+
+    superagent
+        .get(`${googleUrl}${searchFor}&key=${G_API_KEY}`)
+        .end((err, resp) => {
+            // console.log('data from books', data);
+            /*
+                resp.body = the response obj from google's server
+                resp.body.items = an array of books
+
+                TODO
+                Array.slice() to shorten our array
+                Array.map() our shortened array to go through each book and 
+                    shrink it to the data we want
+
+                GOAL:
+                    send back an array of objects that looks like
+                    a client GET req to /api/v1/cards
+            */
+
+            const smallBooks = resp.body.items.slice(0,10).map( book => {
+                return {
+                    title: book.volumeInfo.title,
+                    description: book.volumeInfo.description,
+                    author: book.volumeInfo.authors[0],
+                    isbn: book.volumeInfo.industryIdentifiers[0].identifier,
+                    image_url: book.volumeInfo.imageLinks.thumbnail 
+                };
+            });
+
+            res.send(smallBooks);
+        });
+});
 
 app.get('/api/v1/cards', (req, res) => {
     client.query(`SELECT * FROM cards;`)
