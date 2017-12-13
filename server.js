@@ -122,6 +122,8 @@ app.get('/api/v1/cards/:recipient', (req, res) => {
         .catch(console.error);
 });
 
+// NEXT STEP: Add get request here (GET http://quotes.stormconsultancy.co.uk/random.json)
+
 app.listen(PORT, () => {
     console.log(`Listening for API requests to port ${PORT}`);
 });
